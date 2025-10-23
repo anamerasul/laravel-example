@@ -13,9 +13,9 @@ WORKDIR /app
 
 # Install system packages, nginx, and PHP extensions needed for Laravel + Neon
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    nginx libpq-dev git unzip libonig-dev \
- && docker-php-ext-install -j$(nproc) bcmath mbstring pdo_pgsql \
- && rm -rf /var/lib/apt/lists/*
+    nginx libpq-dev git unzip libonig-dev gettext-base \
+  && docker-php-ext-install -j$(nproc) bcmath mbstring pdo_pgsql \
+  && rm -rf /var/lib/apt/lists/*
 
 # Copy application code and vendor
 COPY . /app
