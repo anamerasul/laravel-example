@@ -1,6 +1,11 @@
 #!/bin/sh
 set -e
 
+# Ensure writable storage and cache directories
+mkdir -p storage/logs bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache || true
+chmod -R ug+rwX storage bootstrap/cache || true
+
 # Build caches for performance
 php artisan package:discover --ansi || true
 php artisan config:cache

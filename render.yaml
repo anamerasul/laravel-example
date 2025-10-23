@@ -30,3 +30,5 @@ services:
         sync: false
       - key: APP_URL
         value: https://laravel-example-c402.onrender.com
+      - key: LOG_CHANNEL
+        value: stderr
