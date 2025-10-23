@@ -5,10 +5,6 @@ services:
     plan: free
     autoDeploy: true
     healthCheckPath: /
-    preDeployCommand: |
-      php artisan key:generate --force || true
-      php artisan config:cache
-      php artisan migrate --force
     envVars:
       - key: APP_ENV
         value: production
@@ -32,3 +28,5 @@ services:
         value: require
       - key: DB_ENDPOINT_ID
         sync: false
+      - key: APP_URL
+        value: https://laravel-example-c402.onrender.com

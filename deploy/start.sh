@@ -6,10 +6,11 @@ php artisan package:discover --ansi || true
 php artisan config:cache
 php artisan route:cache || true
 php artisan view:cache
+php artisan migrate --force || true
 
-# Template nginx config with PORT
+# Template nginx config with PORT only (avoid expanding Nginx $vars)
 mkdir -p /etc/nginx/conf.d
-envsubst < /etc/nginx/templates/laravel.conf > /etc/nginx/conf.d/default.conf
+envsubst '${PORT}' < /etc/nginx/templates/laravel.conf > /etc/nginx/conf.d/default.conf
 
 # Start php-fpm and nginx
 php-fpm -D
