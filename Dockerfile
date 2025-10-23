@@ -4,7 +4,8 @@ ENV COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_MEMORY_LIMIT=-1
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 COPY composer.json composer.lock /app/
-RUN composer install --no-dev --prefer-dist --no-progress --no-interaction --optimize-autoloader --no-scripts
+RUN apt-get update && apt-get install -y --no-install-recommends unzip git && rm -rf /var/lib/apt/lists/*
+RUN composer install --no-dev --prefer-dist --no-progress --no-interaction --optimize-autoloader --no-scripts --ignore-platform-reqs
 
 # ---- Production image: php-fpm + nginx ----
 FROM php:8.2-fpm
@@ -14,7 +15,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx libpq-dev git unzip \
  && rm -rf /var/lib/apt/lists/* \
- && docker-php-ext-install pdo_pgsql pgsql
+ && docker-php-ext-install mbstring bcmath pdo_pgsql pgsql
 
 # Copy application code and vendor
 COPY . /app
