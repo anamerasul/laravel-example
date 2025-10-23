@@ -2,6 +2,7 @@
 set -e
 
 # Build caches for performance
+php artisan package:discover --ansi || true
 php artisan config:cache
 php artisan route:cache || true
 php artisan view:cache

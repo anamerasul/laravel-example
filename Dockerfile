@@ -1,8 +1,10 @@
-# ---- Build vendor dependencies ----
-FROM composer:2 AS vendor
+# ---- Build vendor dependencies under PHP 8.2 ----
+FROM php:8.2-cli AS vendor
+ENV COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_MEMORY_LIMIT=-1
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 COPY composer.json composer.lock /app/
-RUN composer install --no-dev --prefer-dist --no-progress --no-interaction --optimize-autoloader
+RUN composer install --no-dev --prefer-dist --no-progress --no-interaction --optimize-autoloader --no-scripts
 
 # ---- Production image: php-fpm + nginx ----
 FROM php:8.2-fpm
